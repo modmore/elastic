@@ -234,6 +234,7 @@ if (!createObject('sTask', array(
 */
 $manager = $modx->getManager();
 
+$modx->getCacheManager()->refresh();
 
 /**
  * Creates an object.
