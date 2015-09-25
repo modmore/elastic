@@ -42,17 +42,6 @@ if (!createObject('modSystemSetting', array(
     echo "Error creating elastic.core_path setting.\n";
 }
 
-/*if (!createObject('modSystemSetting', array(
-    'key' => 'elastic.assets_path',
-    'value' => $componentPath.'/assets/components/elastic/',
-    'xtype' => 'textfield',
-    'namespace' => 'elastic',
-    'area' => 'Paths',
-    'editedon' => time(),
-), 'key', false)) {
-    echo "Error creating elastic.assets_path setting.\n";
-}*/
-
 /* Fetch assets url */
 $url = 'http';
 if (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) {
@@ -89,16 +78,6 @@ if (!createObject('modSystemSetting', array(
     echo "Error creating elastic.hosts setting.\n";
 }
 if (!createObject('modSystemSetting', array(
-    'key' => 'elastic.index_fields',
-    'value' => 'pagetitle,longtitle,description,introtext,uri,parent,content,hidemenu,class_key,context_key',
-    'xtype' => 'textfield',
-    'namespace' => 'elastic',
-    'area' => 'Indexing',
-    'editedon' => time(),
-), 'key', false)) {
-    echo "Error creating elastic.hosts setting.\n";
-}
-if (!createObject('modSystemSetting', array(
     'key' => 'elastic.resource_index',
     'value' => 'resources',
     'xtype' => 'textfield',
@@ -111,16 +90,6 @@ if (!createObject('modSystemSetting', array(
 if (!createObject('modSystemSetting', array(
     'key' => 'elastic.resource_type',
     'value' => 'content',
-    'xtype' => 'textfield',
-    'namespace' => 'elastic',
-    'area' => 'Indexing',
-    'editedon' => time(),
-), 'key', false)) {
-    echo "Error creating elastic.resource_type setting.\n";
-}
-if (!createObject('modSystemSetting', array(
-    'key' => 'elastic.resource_tvs',
-    'value' => '',
     'xtype' => 'textfield',
     'namespace' => 'elastic',
     'area' => 'Indexing',
@@ -167,71 +136,18 @@ if ($indexPlugin) {
     }
 }
 
-/*
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/signup_reminder_14d.php',
-    'namespace' => 'elastic',
-    'reference' => 'signup_reminder_14d',
-    'description' => 'Pokes the client after 14 days if they haven\'t made any purchases yet'
-), 'reference', true)) {
-    echo "Error creating sTask object";
+if ($scheduler instanceof Scheduler) {
+    if (!createObject('sTask', array(
+        'class_key' => 'sFileTask',
+        'content' => 'elements/tasks/elastic_index_all.task.php',
+        'namespace' => 'elastic',
+        'reference' => 'elastic_index_all',
+        'description' => 'Indexes all resources in an ElasticSearch server.'
+    ), 'reference', true)
+    ) {
+        echo "Error creating sTask object";
+    }
 }
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/invoice_unpaid_14d.php',
-    'namespace' => 'elastic',
-    'reference' => 'invoice_unpaid_14d',
-    'description' => 'Checks if an invoice has been paid and if not send an email reminder.'
-), 'reference', true)) {
-    echo "Error creating sTask object";
-}
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/weekly_stats.php',
-    'namespace' => 'elastic',
-    'reference' => 'weekly_stats',
-    'description' => 'Emails Mark with weekly stats'
-), 'reference', true)) {
-    echo "Error creating sTask object";
-}
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/quarterly_overview.php',
-    'namespace' => 'elastic',
-    'reference' => 'quarterly_overview',
-    'description' => 'Generates an overview of all invoices and their tax categories for bookkeeping purposes.'
-), 'reference', false)) {
-    echo "Error creating sTask object";
-}
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/clean_invoice_pdfs.php',
-    'namespace' => 'elastic',
-    'reference' => 'clean_invoice_pdfs',
-    'description' => 'Cleans up invoice PDFs with old statuses and generates those that are missing. Keeps pdfs dir ready for download.'
-), 'reference', false)) {
-    echo "Error creating sTask object";
-}
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/charge_subscriptions.php',
-    'namespace' => 'elastic',
-    'reference' => 'charge_subscriptions',
-    'description' => 'Goes over available subscriptions and handles automatic renewals.'
-), 'reference', false)) {
-    echo "Error creating sTask object";
-}
-if (!createObject('sTask', array(
-    'class_key' => 'sFileTask',
-    'content' => 'elements/tasks/create_invoice_from_order.php',
-    'namespace' => 'elastic',
-    'reference' => 'create_invoice_from_order',
-    'description' => 'Takes a completed order, and creates an invoice record for it.'
-), 'reference', false)) {
-    echo "Error creating sTask object";
-}
-*/
 $manager = $modx->getManager();
 
 $modx->getCacheManager()->refresh();

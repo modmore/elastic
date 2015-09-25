@@ -40,4 +40,25 @@ class ElasticService {
         }
         return $this->client;
     }
+
+    /**
+     * Generates the body for indexing a resource object
+     *
+     * @param modResource $resource
+     * @return array
+     */
+    public function generateResourceBody(modResource $resource)
+    {
+        $body = $resource->toArray();
+
+        $tvs = [];
+        /** @var modTemplateVar[] $tvCollection */
+        $tvCollection = $resource->getTemplateVars();
+        foreach ($tvCollection as $tv) {
+            $tvs[$tv->get('name')] = $tv->renderOutput();
+        }
+        $body['tvs'] = $tvs;
+
+        return $body;
+    }
 }
