@@ -104,15 +104,20 @@ if (!createObject('modCategory', array(
 ), 'category', false)) {
     echo "Error creating Category.\n";
 }
-/*
+$categoryId = 0;
+$category = $modx->getObject('modCategory', array('category' => 'Elastic'));
+if ($category instanceof modCategory) {
+    $categoryId = $category->get('id');
+}
+
 if (!createObject('modSnippet', array(
-    'name' => 'modmoreOrderBeanie',
+    'name' => 'ElasticSearch',
     'static' => true,
-    'static_file' => '[[++elastic.core_path]]elements/snippets/modmoreorderbeanie.snippet.php',
+    'static_file' => '[[++elastic.core_path]]elements/snippets/elasticsearch.snippet.php',
     'category' => $categoryId,
 ), 'name', true)) {
     echo "Error creating snippet.\n";
-}*/
+}
 
 
 /**
